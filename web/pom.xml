@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>com.bzsoft</groupId>
+        <artifactId>harrison</artifactId>        
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+   <groupId>com.bzsoft</groupId>
+    <artifactId>harrison-web</artifactId> 
+	<name>${groupId}:${artifactId}</name>	
+    <packaging>war</packaging>
+    <version>0.1-SNAPSHOT</version>  
+     
+
+    <scm>
+        <connection>${scmBaseConnection}/web</connection>
+        <developerConnection>${scmBaseConnection}/web</developerConnection>
+    </scm>  
+
+    <build>
+        <finalName>${parent.artifactId}-web</finalName>
+        <resources>
+
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <!-- =========================================================== -->
+            <!-- Jetty configuration -->
+            <!-- =========================================================== -->
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>7.6.9.v20130131</version>
+
+                <configuration>
+                    <webAppConfig>
+                        <contextPath>/harrison</contextPath>
+                        <jettyEnvXml>src/main/jetty/jetty-env.xml</jettyEnvXml>
+                        <descriptor>src/main/webapp/WEB-INF/web.xml</descriptor>
+                    </webAppConfig>
+                    <reload>manual</reload>
+                    <loginServices>
+                        <loginService implementation="org.eclipse.jetty.security.HashLoginService">
+                            <name>ItxRealm</name>
+                            <config>${project.basedir}/src/main/jetty/realm.properties</config>
+                        </loginService>
+                    </loginServices>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8080</port>
+                        </connector>
+                    </connectors>
+                </configuration>
+                <dependencies>                    
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-jdbc</artifactId>
+                        <version>${spring.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>                    
+                </dependencies>
+            </plugin>
+
+
+            <!-- Plugin para generacion del WAR -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>                    
+                    <webResources>
+                        <webResource>
+                            <directory>src/main/resources/META-INF</directory>
+                            <targetPath>META-INF</targetPath>
+                        </webResource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/conf/local</directory>
+                        <targetPath>../classes</targetPath>
+                    </resource>
+                </resources>
+            </build>
+        </profile>        
+    </profiles>
+
+    <dependencies>
+
+        <!-- SCOPE RUNTIME -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- SCOPE PROVIDED -->        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- SCOPE COMPILE -->         
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>${parent.artifactId}-protocol</artifactId>
+             <version>0.1-SNAPSHOT</version>                           
+        </dependency>        
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>${parent.artifactId}-service</artifactId>
+             <version>0.1-SNAPSHOT</version>                           
+        </dependency>        
+
+
+    </dependencies>
+</project>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>com.bzsoft</groupId>
+        <artifactId>harrison</artifactId>        
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.bzsoft</groupId>
+    <artifactId>harrison-client</artifactId>
+    <name>${groupId}:${artifactId}</name>     
+    <packaging>jar</packaging>
+    <version>0.1-SNAPSHOT</version>     
+
+    <scm>
+        <connection>${scmBaseConnection}/client</connection>
+        <developerConnection>${scmBaseConnection}/client</developerConnection>
+    </scm>
+   
+
+    <dependencies>
+
+        <!-- SCOPE RUNTIME -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- SCOPE PROVIDED -->        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- SCOPE COMPILE -->         
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>           
+
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>${parent.artifactId}-protocol</artifactId>
+            <version>0.1-SNAPSHOT</version>                           
+        </dependency>        
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>${parent.artifactId}-service</artifactId>
+            <version>0.1-SNAPSHOT</version>                           
+        </dependency>  
+    </dependencies>
+</project>

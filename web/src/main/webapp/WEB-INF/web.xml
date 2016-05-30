@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:/spring-config.xml            
+        </param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+
+
+    <servlet>
+        <servlet-name>spring-services</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>spring-services</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>            
+        
+    <servlet>
+        <servlet-name>HarrisonTest</servlet-name>
+        <servlet-class>com.bzsoft.harrison.server.HarrisonServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+        <init-param>
+            <param-name>api</param-name>
+            <param-value>com.bzsoft.harrison.service.TestService</param-value>
+        </init-param>
+        <init-param>
+            <param-name>impl</param-name>
+            <param-value>com.bzsoft.harrison.service.impl.TestServiceImpl</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>HarrisonTest</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping> 
+</web-app>
