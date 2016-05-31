@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 import org.apache.http.entity.AbstractHttpEntity;
 
+import com.bzsoft.harrison.proto.IterableWrapper;
+import com.bzsoft.harrison.proto.IteratorException;
 import com.bzsoft.harrison.proto.ProtocolConstants;
 import com.bzsoft.harrison.proto.ProtocolUtil;
 import com.bzsoft.harrison.proto.stream.SerializableObjectOutput;
@@ -34,7 +36,7 @@ public class StreamCallEntity<T extends Serializable> extends AbstractHttpEntity
 			final SerializableObjectStreamFactory sosFactory) throws IOException {
 		this.methodName = methodName;
 		this.args = args;
-		this.iterable = iterable;
+		this.iterable = iterable == null ? null : IterableWrapper.of(iterable);
 		this.sosFactory = sosFactory;
 		setChunked(true);
 		setContentType(ProtocolConstants.CONTENT_TYPE);
@@ -95,12 +97,17 @@ public class StreamCallEntity<T extends Serializable> extends AbstractHttpEntity
 		if (iterable != null){
 			os.writeBoolean(true); //has streaming
 			os.writeStreamBegin();
-			for(final T item : iterable) {
-				os.writeBoolean(true);
-				os.writeObject(item);
-				os.reset();
+			try{
+				for(final T item : iterable) {
+					os.writeBoolean(true);
+					os.writeObject(item);
+					os.reset();
+				}
+				os.writeBoolean(false);
+			}catch(final IteratorException e){
+				//exception while iterating
+
 			}
-			os.writeBoolean(false);
 			os.writeStreamEnd();
 		}else{
 			os.writeBoolean(false); //has not streaming

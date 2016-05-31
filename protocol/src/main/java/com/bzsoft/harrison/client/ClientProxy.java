@@ -54,11 +54,6 @@ public class ClientProxy implements InvocationHandler, Serializable {
 		sosFactory = new BaseSerializableObjectStreamFactoryImpl();
 	}
 
-	/**
-	 * Returns the proxy's URL.
-	 *
-	 * @return the url
-	 */
 	public URL getURL() {
 		return url;
 	}
@@ -67,19 +62,6 @@ public class ClientProxy implements InvocationHandler, Serializable {
 		return type;
 	}
 
-	/**
-	 * Handles the object invocation.
-	 *
-	 * @param proxy
-	 *            the proxy object to invoke
-	 * @param method
-	 *            the method to call
-	 * @param args
-	 *            the arguments to the proxy object
-	 * @return the object
-	 * @throws Throwable
-	 *             the throwable
-	 */
 	@Override
 	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 		String mangleName;
@@ -188,6 +170,7 @@ public class ClientProxy implements InvocationHandler, Serializable {
 						soi.readStreamBegin();
 						return new OutputClientStreamIterable(soi);
 					}
+					//TODO: read exception if present
 					return new OutputClientStreamEmptyIterable();
 				}catch(final Throwable t){
 					EntityUtils.consume(entity);

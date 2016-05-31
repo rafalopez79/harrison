@@ -14,7 +14,7 @@ public class SerializableObjectStreamFactoryCreatorImpl implements SerializableO
 		case ProtocolConstants.JAVA_SERIALIZATION:
 			return new BaseSerializableObjectStreamFactoryImpl();
 		default:
-			throw new ProtocolException(String.format("Unknown serializator %d", type));
+			throw new ProtocolException(String.format("Unknown serialization %d", type));
 		}
 	}
 
