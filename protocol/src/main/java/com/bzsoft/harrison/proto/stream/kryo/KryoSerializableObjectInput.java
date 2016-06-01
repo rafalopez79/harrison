@@ -1,54 +1,85 @@
-package com.bzsoft.harrison.proto.stream.base;
+package com.bzsoft.harrison.proto.stream.kryo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 
 import com.bzsoft.harrison.proto.ProtocolConstants;
 import com.bzsoft.harrison.proto.stream.SerializableObjectInput;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 
-public class BaseSerializableObjectInput implements SerializableObjectInput {
+/**
+ * The Class KryoSerializableObjectInput.
+ */
+public class KryoSerializableObjectInput implements SerializableObjectInput {
 
-    private final ObjectInputStream is;
+    private final Kryo kryo;
+    private final Input is;
 
-    public BaseSerializableObjectInput(final InputStream is) throws IOException {
-        this.is = new ObjectInputStream(is);
+    /**
+     * Instantiates a new kryo serializable object input.
+     * 
+     * @param is
+     *            the is
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public KryoSerializableObjectInput(final InputStream is) throws IOException {
+        kryo = new Kryo();
+        this.is = new Input(is);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object readObject() throws ClassNotFoundException, IOException {
-        return is.readObject();
+        return kryo.readClassAndObject(is);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws IOException {
         is.close();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean readBoolean() throws IOException {
         return is.readBoolean();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int readInt() throws IOException {
         return is.readInt();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String readUTF() throws IOException {
-        return is.readUTF();
+        return is.readString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String readString() throws IOException {
-        final boolean notNull = is.readBoolean();
-        if (notNull) {
-            return is.readUTF();
-        }
-        return null;
+        return kryo.readObject(is, String.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object readResult() throws Throwable {
         final boolean ok = is.readBoolean();
@@ -59,6 +90,9 @@ public class BaseSerializableObjectInput implements SerializableObjectInput {
         throw t;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void readStreamBegin() throws IOException {
         final byte b = is.readByte();
@@ -67,6 +101,9 @@ public class BaseSerializableObjectInput implements SerializableObjectInput {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void readStreamEnd() throws IOException {
         final byte b = is.readByte();

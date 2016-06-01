@@ -2,17 +2,21 @@ package com.bzsoft.harrison.proto;
 
 import java.util.Iterator;
 
-public class IterableIterator<T> implements Iterable<T>{
+public class IterableIterator<T> implements Iterable<T> {
 
-	private final Iterator<T> iterator;
+    private final Iterator<T> iterator;
 
-	public IterableIterator(final Iterator<T> iterator){
-		this.iterator = iterator;
-	}
+    private IterableIterator(final Iterator<T> iterator) {
+        this.iterator = iterator;
+    }
 
-	@Override
-	public Iterator<T> iterator() {
-		return iterator;
-	}
+    public static <T> Iterable<T> of(final Iterator<T> iterator) {
+        return new IterableIterator<T>(iterator);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return iterator;
+    }
 
 }

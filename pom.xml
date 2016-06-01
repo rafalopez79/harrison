@@ -187,6 +187,12 @@
 			<artifactId>httpclient-win</artifactId>
 			<version>${httpclient.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>kryo</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 	</dependencies>
     </dependencyManagement>
 </project>

@@ -6,19 +6,16 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import com.bzsoft.harrison.proto.stream.SerializableObjectInput;
-import com.bzsoft.harrison.proto.stream.SerializableObjectOutput;
 
-public class InputOutputServerStreamIterable<T extends Serializable> implements StreamIterable<T> {
+public class InputServerStreamIterable<T extends Serializable> implements StreamIterable<T> {
 
     private static final class StreamIterator<T> implements Iterator<T> {
 
         private final SerializableObjectInput soi;
-        private final SerializableObjectOutput soo;
         private Boolean next;
 
-        private StreamIterator(final SerializableObjectInput soi, final SerializableObjectOutput soo) {
+        private StreamIterator(final SerializableObjectInput soi) {
             this.soi = soi;
-            this.soo = soo;
             this.next = null;
         }
 
@@ -36,8 +33,6 @@ public class InputOutputServerStreamIterable<T extends Serializable> implements 
                     if (t != null) {
                         throw new IteratorException(t);
                     }
-                    soo.writeBoolean(true);
-                    soo.writeStreamBegin();
                 }
                 return streamNext;
             } catch (final IOException e) {
@@ -68,29 +63,21 @@ public class InputOutputServerStreamIterable<T extends Serializable> implements 
             }
         }
 
-        public boolean finish() {
-            return next != null && !next.booleanValue();
-        }
-
         @Override
         public void remove() {
             throw new UnsupportedOperationException("remove");
         }
     }
 
-    private final SerializableObjectInput soi;
-    private final SerializableObjectOutput soo;
     private final StreamIterator<T> iterator;
 
-    public InputOutputServerStreamIterable(final SerializableObjectInput soi, final SerializableObjectOutput soo) {
-        this.soi = soi;
-        this.soo = soo;
-        this.iterator = new StreamIterator<T>(soi, soo);
+    public InputServerStreamIterable(final SerializableObjectInput soi) {
+        this.iterator = new StreamIterator<T>(soi);
     }
 
     @Override
     public void close() throws IOException {
-        //
+        // empty
     }
 
     @Override
@@ -105,18 +92,7 @@ public class InputOutputServerStreamIterable<T extends Serializable> implements 
 
     @Override
     public void write(final T item) throws IOException {
-        if (!iterator.finish()) {
-            throw new IOException("Input not finished");
-        }
-        soo.writeBoolean(true);
-        soo.writeObject(item);
-        soo.reset();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        ProtocolUtil.close(soi, soo);
-        super.finalize();
+        throw new UnsupportedOperationException();
     }
 
 }
