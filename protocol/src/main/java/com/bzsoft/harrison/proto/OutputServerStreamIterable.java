@@ -9,9 +9,11 @@ import com.bzsoft.harrison.proto.stream.SerializableObjectOutput;
 public class OutputServerStreamIterable<T extends Serializable> implements StreamIterable<T> {
 
 	private final SerializableObjectOutput soi;
+	private int count;
 
 	public OutputServerStreamIterable(final SerializableObjectOutput soi) {
 		this.soi = soi;
+		count = 0;
 	}
 
 	@Override
@@ -33,7 +35,10 @@ public class OutputServerStreamIterable<T extends Serializable> implements Strea
 	public void write(final T item) throws IOException {
 		soi.writeBoolean(true);
 		soi.writeObject(item);
-		soi.reset();
+		if (++count  == ProtocolConstants.RESET_COUNT){
+			soi.reset();
+			count = 0;
+		}
 	}
 
 }
