@@ -32,22 +32,22 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>            
         
-    <servlet>
-        <servlet-name>HarrisonTest</servlet-name>
-        <servlet-class>com.bzsoft.harrison.server.HarrisonServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-        <init-param>
-            <param-name>api</param-name>
-            <param-value>com.bzsoft.harrison.service.TestService</param-value>
-        </init-param>
-        <init-param>
-            <param-name>impl</param-name>
-            <param-value>com.bzsoft.harrison.service.impl.TestServiceImpl</param-value>
-        </init-param>
-    </servlet>
+<!--     <servlet> -->
+<!--         <servlet-name>HarrisonTest</servlet-name> -->
+<!--         <servlet-class>com.bzsoft.harrison.server.HarrisonServlet</servlet-class> -->
+<!--         <load-on-startup>2</load-on-startup> -->
+<!--         <init-param> -->
+<!--             <param-name>api</param-name> -->
+<!--             <param-value>com.bzsoft.harrison.service.TestService</param-value> -->
+<!--         </init-param> -->
+<!--         <init-param> -->
+<!--             <param-name>impl</param-name> -->
+<!--             <param-value>com.bzsoft.harrison.service.impl.TestServiceImpl</param-value> -->
+<!--         </init-param> -->
+<!--     </servlet> -->
     
-    <servlet-mapping>
-        <servlet-name>HarrisonTest</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping> 
+<!--     <servlet-mapping> -->
+<!--         <servlet-name>HarrisonTest</servlet-name> -->
+<!--         <url-pattern>/test</url-pattern> -->
+<!--     </servlet-mapping>  -->
 </web-app>

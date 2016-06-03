@@ -5,9 +5,14 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bzsoft.harrison.proto.stream.SerializableObjectInput;
 
 public class OutputClientStreamIterable<T extends Serializable> implements StreamIterable<T> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(OutputClientStreamIterable.class);
 
 	private static final class StreamIterator<T> implements Iterator<T>{
 
@@ -70,16 +75,19 @@ public class OutputClientStreamIterable<T extends Serializable> implements Strea
 	}
 
 	private final SerializableObjectInput soi;
+	private final CountingHttpEntity entity;
 	private final Iterator<T> iterator;
 
-	public OutputClientStreamIterable(final SerializableObjectInput soi) {
+	public OutputClientStreamIterable(final SerializableObjectInput soi, final CountingHttpEntity entity) {
 		this.soi = soi;
+		this.entity = entity;
 		this.iterator = new StreamIterator<T>(soi);
 	}
 
 	@Override
 	public void close() throws IOException {
 		soi.close();
+		LOGGER.info("Downloaded {} bytes", entity.getTransferred());
 	}
 
 	@Override

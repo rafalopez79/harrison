@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.bzsoft.harrison.proto.ProtocolConstants;
 import com.bzsoft.harrison.proto.ProtocolUtil;
 import com.bzsoft.harrison.proto.StreamIterable;
+import com.bzsoft.harrison.proto.stream.SerializerType;
 import com.bzsoft.harrison.service.DataDTO;
 import com.bzsoft.harrison.service.DataPO;
 import com.bzsoft.harrison.service.TestService;
@@ -52,7 +52,7 @@ public class TestClient {
 	public static void main(final String[] args) throws Exception {
 		final String url = "http://localhost:8080/services/test";
 		final Class<TestService> apiClass = TestService.class;
-		final ServiceProxyFactory f = new ClientProxyFactory(ProtocolConstants.KRYO_SERIALIZATION);
+		final ServiceProxyFactory f = new ClientProxyFactory(SerializerType.JAVA, false, "hola", "", true);
 		final TestService service = f.create(apiClass, url);
 		// for(int i = 0; i < 10; i++){
 		// final int a = service.compute(String.valueOf(i), "500");

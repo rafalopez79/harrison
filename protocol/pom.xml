@@ -68,7 +68,12 @@
         <dependency>
             <groupId>com.esotericsoftware</groupId>
             <artifactId>kryo</artifactId>
-        </dependency>          
+        </dependency>
+           
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>            
+             <artifactId>jackson-dataformat-smile</artifactId>        
+        </dependency>            
 
     </dependencies>
 </project>

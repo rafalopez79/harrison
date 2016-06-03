@@ -8,6 +8,7 @@ public final class ProtocolConstants {
 
 	public static final int MAGIC = 0x0FE0BEBE;
 	public static final int VERSION = 0x00000000;
+
 	public static final byte JAVA_SERIALIZATION = 0;
 	public static final byte KRYO_SERIALIZATION = 1;
 
@@ -21,6 +22,9 @@ public final class ProtocolConstants {
 
 	public static final String PROTOCOL_NAME = "Harrison(tm)";
 	public static final String CONTENT_TYPE = "application/harrison";
+	public static final String CONTENT_ENCODING = "Content-Encoding";
+	public static final String ACCEPT_ENCODING ="Accept-Encoding";
+	public static final String GZIP_ENCODING = "gzip";
 
 	public static final int RESET_COUNT = 50;
 }
