@@ -16,6 +16,7 @@ import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.util.NestedServletException;
 
+import com.bzsoft.harrison.proto.IgnoreCloseInputStream;
 import com.bzsoft.harrison.proto.IgnoreCloseOutputStream;
 import com.bzsoft.harrison.proto.ProtocolConstants;
 
@@ -42,9 +43,9 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 		OutputStream os = null;
 		GZIPOutputStream gzos = null;
 		if (encoding != null && encoding.indexOf(ProtocolConstants.GZIP_ENCODING) > -1){
-			is = new GZIPInputStream(request.getInputStream());
+			is = new GZIPInputStream(new IgnoreCloseInputStream(request.getInputStream()));
 		}else{
-			is = request.getInputStream();
+			is = new IgnoreCloseInputStream(request.getInputStream());
 		}
 		if (acceptEncoding != null && acceptEncoding.indexOf(ProtocolConstants.GZIP_ENCODING) > -1){
 			response.setHeader(ProtocolConstants.CONTENT_ENCODING, ProtocolConstants.GZIP_ENCODING);
