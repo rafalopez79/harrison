@@ -64,6 +64,6 @@
             <groupId>${parent.groupId}</groupId>
             <artifactId>${parent.artifactId}-service</artifactId>
             <version>0.1-SNAPSHOT</version>                           
-        </dependency>  
+        </dependency>              
     </dependencies>
 </project>

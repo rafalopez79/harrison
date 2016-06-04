@@ -21,7 +21,7 @@ public final class ProtocolConstants {
 	public static final byte STREAM_END = 'E';
 
 	public static final String PROTOCOL_NAME = "Harrison(tm)";
-	public static final String CONTENT_TYPE = "application/harrison";
+	public static final String CONTENT_TYPE = "application/prs.harrison";
 	public static final String CONTENT_ENCODING = "Content-Encoding";
 	public static final String ACCEPT_ENCODING ="Accept-Encoding";
 	public static final String GZIP_ENCODING = "gzip";

@@ -1,5 +1,6 @@
 package com.bzsoft.harrison.service;
 
+import java.awt.Button;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -9,11 +10,13 @@ public class DataDTO implements Serializable {
 	private byte			id;
 	private BigDecimal	price;
 	private final int d;
+	private final transient Button button;
 
-	public DataDTO(final byte id, final BigDecimal price, final int d) {
+	public DataDTO(final byte id, final BigDecimal price, final int d, final Button button) {
 		this.id = id;
 		this.price = price;
 		this.d = d;
+		this.button = button;
 	}
 
 	public byte getId() {
@@ -34,7 +37,7 @@ public class DataDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DataDTO [id=" + id + ", price=" + price + ", d = "+d+"]";
+		return "DataDTO [id = " + id + ", price = " + price + ", d = "+d+", button = "+button+"]";
 	}
 
 }

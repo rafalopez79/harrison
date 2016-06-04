@@ -7,19 +7,47 @@ import static com.esotericsoftware.minlog.Log.DEBUG;
 import static com.esotericsoftware.minlog.Log.TRACE;
 import static com.esotericsoftware.minlog.Log.trace;
 
-import java.io.Serializable;
+import java.lang.reflect.InvocationHandler;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.GregorianCalendar;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
-import com.bzsoft.harrison.proto.ProtocolRuntimeException;
 import com.esotericsoftware.kryo.ClassResolver;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsEmptyListSerializer;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsEmptyMapSerializer;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsEmptySetSerializer;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsSingletonListSerializer;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsSingletonMapSerializer;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsSingletonSetSerializer;
 import com.esotericsoftware.kryo.util.IdentityObjectIntMap;
 import com.esotericsoftware.kryo.util.IntMap;
 import com.esotericsoftware.kryo.util.MapReferenceResolver;
 import com.esotericsoftware.kryo.util.ObjectMap;
+
+import de.javakaffee.kryoserializers.ArraysAsListSerializer;
+import de.javakaffee.kryoserializers.BitSetSerializer;
+import de.javakaffee.kryoserializers.DateSerializer;
+import de.javakaffee.kryoserializers.EnumMapSerializer;
+import de.javakaffee.kryoserializers.EnumSetSerializer;
+import de.javakaffee.kryoserializers.GregorianCalendarSerializer;
+import de.javakaffee.kryoserializers.JdkProxySerializer;
+import de.javakaffee.kryoserializers.RegexSerializer;
+import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
+import de.javakaffee.kryoserializers.URISerializer;
+import de.javakaffee.kryoserializers.UUIDSerializer;
+import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
 
 public class AutoKryo extends Kryo {
 
@@ -95,9 +123,9 @@ public class AutoKryo extends Kryo {
 				output.writeVarInt(Kryo.NULL, true);
 				return null;
 			}
-			if (!type.isAssignableFrom(Serializable.class)){
-				throw new ProtocolRuntimeException("Non serializable class "+type);
-			}
+			//			if (!type.isAssignableFrom(Serializable.class)){
+			//				throw new ProtocolRuntimeException(type+" is not Serializable");
+			//			}
 			final Registration registration = kryo.getRegistration(type);
 			if (registration.getId() == NAME) {
 				writeName(output, type, registration);
@@ -203,7 +231,27 @@ public class AutoKryo extends Kryo {
 
 	public AutoKryo() {
 		super(new AutoClassResolver(), new MapReferenceResolver());
-
+		register( Arrays.asList( "" ).getClass(), new ArraysAsListSerializer() );
+		register( Collections.EMPTY_LIST.getClass(), new CollectionsEmptyListSerializer() );
+		register( Collections.EMPTY_MAP.getClass(), new CollectionsEmptyMapSerializer() );
+		register( Collections.EMPTY_SET.getClass(), new CollectionsEmptySetSerializer() );
+		register( Collections.singletonList( "" ).getClass(), new CollectionsSingletonListSerializer() );
+		register( Collections.singleton( "" ).getClass(), new CollectionsSingletonSetSerializer() );
+		register( Collections.singletonMap( "", "" ).getClass(), new CollectionsSingletonMapSerializer() );
+		register( Date.class, new DateSerializer(Date.class));
+		register( java.sql.Date.class, new DateSerializer(java.sql.Date.class));
+		register( java.sql.Time.class, new DateSerializer(java.sql.Time.class));
+		register( java.sql.Timestamp.class, new DateSerializer(java.sql.Timestamp.class));
+		register( GregorianCalendar.class, new GregorianCalendarSerializer() );
+		register( BitSet.class, new BitSetSerializer());
+		register( Pattern.class, new RegexSerializer());
+		register( URI.class, new URISerializer());
+		register( UUID.class, new UUIDSerializer());
+		register( EnumMap.class, new EnumMapSerializer());
+		register( EnumSet.class, new EnumSetSerializer());
+		register( InvocationHandler.class, new JdkProxySerializer() );
+		UnmodifiableCollectionsSerializer.registerSerializers( this );
+		SynchronizedCollectionsSerializer.registerSerializers( this );
 	}
 
 }

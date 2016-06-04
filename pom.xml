@@ -180,12 +180,24 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
+            <exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
         
         <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient-win</artifactId>
 			<version>${httpclient.version}</version>
+            <exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
@@ -195,10 +207,18 @@
 		</dependency>
         
         <dependency>
+            <groupId>de.javakaffee</groupId>
+            <artifactId>kryo-serializers</artifactId>
+            <version>0.38</version>
+        </dependency>
+        
+        <!--
+        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
              <artifactId>jackson-dataformat-smile</artifactId>             
              <version>2.7.4</version>
         </dependency>
+        -->
 	</dependencies>
     </dependencyManagement>
 </project>

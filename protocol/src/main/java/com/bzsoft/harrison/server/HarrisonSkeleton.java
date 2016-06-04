@@ -59,15 +59,19 @@ public class HarrisonSkeleton extends AbstractSkeleton {
 			soo = sosFactory.createSerializableObjectOutput(os);
 			switch (call) {
 			case ProtocolConstants.STANDARD_CALL:
+				LOGGER.info("Standard call");
 				invokeStandardCall(service, soi, soo);
 				break;
 			case ProtocolConstants.DOWNLOAD_CALL:
+				LOGGER.info("Download call");
 				invokeDownloadCall(service, soi, soo);
 				break;
 			case ProtocolConstants.UPLOAD_CALL:
+				LOGGER.info("Upload call");
 				invokeUploadCall(service, soi, soo);
 				break;
 			case ProtocolConstants.UPLOADDOWNLOAD_CALL:
+				LOGGER.info("UploadDownload call");
 				invokeUploadDownloadCall(service, soi, soo);
 				break;
 			default:
@@ -111,10 +115,9 @@ public class HarrisonSkeleton extends AbstractSkeleton {
 			if (throwable instanceof InvocationTargetException) {
 				throwable = ((InvocationTargetException) e).getTargetException();
 			}
-			LOGGER.debug("{} {}", this, throwable.toString(), throwable);
+			LOGGER.error("{} {}", this, throwable.toString(), throwable);
 		}
 		out.writeResult(result, throwable);
-		out.close();
 	}
 
 	private void invokeDownloadCall(final Object srv, final SerializableObjectInput in,

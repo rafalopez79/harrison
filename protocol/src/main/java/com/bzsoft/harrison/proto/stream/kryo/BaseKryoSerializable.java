@@ -8,7 +8,6 @@ public class BaseKryoSerializable {
 
 	protected BaseKryoSerializable() {
 		kryo = new AutoKryo();
-		kryo.setDefaultSerializer(HarrisonSerializer.class);
 	}
 
 }

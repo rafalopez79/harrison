@@ -33,7 +33,10 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 		final String acceptEncoding = request.getHeader(ProtocolConstants.ACCEPT_ENCODING);
 		final String contentType = request.getContentType();
 		LOGGER.debug("Received {} {} ", encoding, contentType);
-
+		if (!ProtocolConstants.CONTENT_TYPE.equals(contentType)){
+			response.sendError(415);
+			return;
+		}
 		response.setContentType(ProtocolConstants.CONTENT_TYPE);
 		InputStream is = null;
 		OutputStream os = null;
@@ -48,7 +51,7 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 			gzos = new GZIPOutputStream(new IgnoreCloseOutputStream(response.getOutputStream()));
 			os = gzos;
 		}else{
-			os = response.getOutputStream();
+			os = new IgnoreCloseOutputStream(response.getOutputStream());
 		}
 		try {
 			invoke(is,os);

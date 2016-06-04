@@ -1,5 +1,6 @@
 package com.bzsoft.harrison.service.impl;
 
+import java.awt.Button;
 import java.math.BigDecimal;
 
 import com.bzsoft.harrison.proto.StreamIterable;
@@ -50,9 +51,10 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public StreamIterable<DataDTO> dataDown(final DataPO po, final StreamIterable<DataDTO> stream) {
 		System.out.println("dataDown " + po);
+		final Button b = new Button();
 		for (int i = 0; i < COUNT; i++) {
 			final BigDecimal price = new BigDecimal(i);
-			final DataDTO dto = new DataDTO((byte)i, price, i);
+			final DataDTO dto = new DataDTO((byte)i, price, i, b);
 			System.out.println(dto);
 			stream.write(dto);
 		}

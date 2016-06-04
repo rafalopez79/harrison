@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.bzsoft.harrison.proto.ClientUtil;
+import com.bzsoft.harrison.proto.IterableIterator;
 import com.bzsoft.harrison.proto.ProtocolUtil;
 import com.bzsoft.harrison.proto.StreamIterable;
 import com.bzsoft.harrison.proto.stream.SerializerType;
@@ -54,50 +56,50 @@ public class TestClient {
 		final Class<TestService> apiClass = TestService.class;
 		final ServiceProxyFactory f = new ClientProxyFactory(SerializerType.KRYO, false, "hola", "", true);
 		final TestService service = f.create(apiClass, url);
-		// for(int i = 0; i < 10; i++){
-		// final int a = service.compute(String.valueOf(i), "500");
-		// System.out.println(a);
-		// }
+		for(int i = 0; i < 10; i++){
+			final int a = service.compute(String.valueOf(i), "500");
+			System.out.println(a);
+		}
 
 		final List<String> list = new ArrayList<String>();
 		for (int i = 0; i < 100; i++) {
 			list.add(String.valueOf(i));
 		}
-		// try {
-		// final StreamIterable<String> si = ClientUtil.createStreamIterable(IterableIterator.of(new ErrorIterator()));
-		// final String result = service.streamUp("a", "b", si);
-		// } catch (final Exception e) {
-		// e.printStackTrace();
-		// }
-		// {
-		// final StreamIterable<String> si = ClientUtil.createStreamIterable(list);
-		// final String result = service.streamUp("a", "b", si);
-		// System.out.println("RESULT UP: " + result);
-		// System.out.println("UP!");
-		//
-		// StreamIterable<String> r = null;
-		// try {
-		// r = service.streamDown("a", "b", null);
-		// for (final String s : r) {
-		// System.out.print(s + " ");
-		// }
-		// } finally {
-		// ProtocolUtil.close(r);
-		// }
-		// }
-		//        {
-		//            final StreamIterable<String> si = ClientUtil.createStreamIterable(list);
-		//            StreamIterable<String> result = null;
-		//            try {
-		//                result = service.streamUpDown("a", "b", si);
-		//                for (final String s : result) {
-		//                    System.out.print(s + " ");
-		//                }
-		//            } finally {
-		//                ProtocolUtil.close(result);
-		//            }
-		//
-		//        }
+		try {
+			final StreamIterable<String> si = ClientUtil.createStreamIterable(IterableIterator.of(new ErrorIterator()));
+			final String result = service.streamUp("a", "b", si);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+		{
+			final StreamIterable<String> si = ClientUtil.createStreamIterable(list);
+			final String result = service.streamUp("a", "b", si);
+			System.out.println("RESULT UP: " + result);
+			System.out.println("UP!");
+
+			StreamIterable<String> r = null;
+			try {
+				r = service.streamDown("a", "b", null);
+				for (final String s : r) {
+					System.out.print(s + " ");
+				}
+			} finally {
+				ProtocolUtil.close(r);
+			}
+		}
+		{
+			final StreamIterable<String> si = ClientUtil.createStreamIterable(list);
+			StreamIterable<String> result = null;
+			try {
+				result = service.streamUpDown("a", "b", si);
+				for (final String s : result) {
+					System.out.print(s + " ");
+				}
+			} finally {
+				ProtocolUtil.close(result);
+			}
+
+		}
 		{
 			StreamIterable<DataDTO> r = null;
 			try {
