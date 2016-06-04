@@ -28,11 +28,11 @@ Easy integration in spring based applications.
     
 #### Standard call
 
-    Standard RPC call with some parameters and a result value.
+Standard RPC call with some parameters and a result value.
 
 #### Stream call
 
-    RPC call that read or return a stream of java objects.
+RPC call that read or return a stream of java objects.
 
 #### Message format
 
