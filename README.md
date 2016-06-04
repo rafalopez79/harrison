@@ -51,9 +51,10 @@ RPC call that read or return a stream of java objects.
 #### Message format
 
 * Standard call
-** Client: 
-Field|Size
------|-----
+  * Client: 
+
+Field | Size
+----- | -----
 Magic | 4 bytes
 Version | 4 bytes
 Serialization type | 1 byte
