@@ -47,6 +47,7 @@ Standard RPC call with some parameters and a result value.
 ##### Stream call
 
 RPC call that read or return a stream of java objects.
+Stream calls must have `StreamIterable` as last parameter of the method signature.
 
 #### Message format
 
@@ -64,10 +65,18 @@ Args length | 4 bytes
 Args | Object list
 
 
-** Server
+  * Server
 
+Field | Size
+----- | -----
+Success | 1 bytes
+Result | Object
+
+  
+  
 * Stream call
-** Client
+
+######TODO
 
 #### Task list
 
