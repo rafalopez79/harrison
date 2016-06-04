@@ -8,6 +8,7 @@ HTTP based RPC for java similar to [HttpInvoker](http://docs.spring.io/spring/do
 #### Motivation
 
 Harrison provides a RPC framework with streaming support for large uploads or downloads.
+
 Easy integration in spring based applications.
 
 #### Remote service example
@@ -27,7 +28,11 @@ Easy integration in spring based applications.
     
 #### Standard call
 
+    Standard RPC call with some parameters and a result value.
+
 #### Stream call
+
+    RPC call that read or return a stream of java objects.
 
 #### Message format
 
