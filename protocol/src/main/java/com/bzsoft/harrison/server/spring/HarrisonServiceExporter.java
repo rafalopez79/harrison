@@ -19,6 +19,7 @@ import org.springframework.web.util.NestedServletException;
 import com.bzsoft.harrison.proto.IgnoreCloseInputStream;
 import com.bzsoft.harrison.proto.IgnoreCloseOutputStream;
 import com.bzsoft.harrison.proto.ProtocolConstants;
+import com.bzsoft.harrison.proto.ProtocolException;
 
 public class HarrisonServiceExporter extends HarrisonExporter implements HttpRequestHandler {
 
@@ -35,7 +36,7 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 		final String contentType = request.getContentType();
 		LOGGER.debug("Received {} {} ", encoding, contentType);
 		if (!ProtocolConstants.CONTENT_TYPE.equals(contentType)){
-			response.sendError(415);
+			response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 			return;
 		}
 		response.setContentType(ProtocolConstants.CONTENT_TYPE);
@@ -56,6 +57,9 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 		}
 		try {
 			invoke(is,os);
+		}catch(final ProtocolException ex){
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			throw new NestedServletException("Harrison skeleton invocation failed", ex);
 		} catch (final Throwable ex) {
 			throw new NestedServletException("Harrison skeleton invocation failed", ex);
 		}finally{

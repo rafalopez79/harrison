@@ -50,7 +50,7 @@ public class HarrisonSkeleton extends AbstractSkeleton {
 		final byte type = ProtocolUtil.readByte(is);
 		final byte call = ProtocolUtil.readByte(is);
 		final SerializerType st = SerializerType.of(type);
-		LOGGER.info("Using SerializerType {}", st);
+		LOGGER.debug("Using SerializerType {}", st);
 		final SerializableObjectStreamFactory sosFactory = sosFactoryCreator.create(st);
 		SerializableObjectInput soi = null;
 		SerializableObjectOutput soo = null;
@@ -59,19 +59,19 @@ public class HarrisonSkeleton extends AbstractSkeleton {
 			soo = sosFactory.createSerializableObjectOutput(os);
 			switch (call) {
 			case ProtocolConstants.STANDARD_CALL:
-				LOGGER.info("Standard call");
+				LOGGER.debug("Standard call");
 				invokeStandardCall(service, soi, soo);
 				break;
 			case ProtocolConstants.DOWNLOAD_CALL:
-				LOGGER.info("Download call");
+				LOGGER.debug("Download call");
 				invokeDownloadCall(service, soi, soo);
 				break;
 			case ProtocolConstants.UPLOAD_CALL:
-				LOGGER.info("Upload call");
+				LOGGER.debug("Upload call");
 				invokeUploadCall(service, soi, soo);
 				break;
 			case ProtocolConstants.UPLOADDOWNLOAD_CALL:
-				LOGGER.info("UploadDownload call");
+				LOGGER.debug("UploadDownload call");
 				invokeUploadDownloadCall(service, soi, soo);
 				break;
 			default:

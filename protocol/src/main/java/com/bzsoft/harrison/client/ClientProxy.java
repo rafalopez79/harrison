@@ -146,7 +146,7 @@ public class ClientProxy implements InvocationHandler, Serializable {
 			LOGGER.info("Call status {} {}", statusCode, statusMessage);
 			final HttpEntity baseEntity = response.getEntity();
 			final CountingHttpEntity entity = baseEntity == null ? null : new CountingHttpEntity( baseEntity);
-			if (entity != null && entity.isStreaming()) {
+			if (entity != null && entity.isStreaming() && statusCode == 200) {
 				try {
 					final InputStream is = entity.getContent();
 					final SerializableObjectInput soi = sosFactory.createSerializableObjectInput(is);
@@ -191,7 +191,7 @@ public class ClientProxy implements InvocationHandler, Serializable {
 			LOGGER.info("Streamed Call status {} {}", statusCode, statusMessage);
 			final HttpEntity baseEntity = response.getEntity();
 			final CountingHttpEntity entity = baseEntity == null ? null : new CountingHttpEntity(baseEntity);
-			if (entity != null && entity.isStreaming()) {
+			if (entity != null && entity.isStreaming() && statusCode == 200) {
 				try {
 					final InputStream is = entity.getContent();
 					final SerializableObjectInput soi = sosFactory.createSerializableObjectInput(is);
