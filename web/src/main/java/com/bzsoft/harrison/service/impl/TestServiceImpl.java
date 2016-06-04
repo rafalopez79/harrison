@@ -18,15 +18,12 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public StreamIterable<String> streamDown(final String a, final String b, final StreamIterable<String> stream) {
-		try {
-			System.out.println("StreamDown " + a + "," + b);
-			for (int i = 0; i < COUNT; i++) {
-				stream.write(String.valueOf(i));
-			}
-			return stream;
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
+
+		System.out.println("StreamDown " + a + "," + b);
+		for (int i = 0; i < COUNT; i++) {
+			stream.write(String.valueOf(i));
 		}
+		return stream;
 	}
 
 	@Override
@@ -40,33 +37,25 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public StreamIterable<String> streamUpDown(final String a, final String b, final StreamIterable<String> stream) {
-		try {
-			System.out.println("StreamUpDown " + a + "," + b);
-			for (final String s : stream) {
-				System.out.println(s);
-			}
-			for (int i = 0; i < 10; i++) {
-				stream.write(String.valueOf(i));
-			}
-			return null;
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
+		System.out.println("StreamUpDown " + a + "," + b);
+		for (final String s : stream) {
+			System.out.println(s);
 		}
+		for (int i = 0; i < 10; i++) {
+			stream.write(String.valueOf(i));
+		}
+		return null;
 	}
 
 	@Override
 	public StreamIterable<DataDTO> dataDown(final DataPO po, final StreamIterable<DataDTO> stream) {
-		try {
-			System.out.println("dataDown " + po);
-			for (int i = 0; i < COUNT; i++) {
-				final BigDecimal price = new BigDecimal(i);
-				final DataDTO dto = new DataDTO((byte)i, price, i);
-				System.out.println(dto);
-				stream.write(dto);
-			}
-			return stream;
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
+		System.out.println("dataDown " + po);
+		for (int i = 0; i < COUNT; i++) {
+			final BigDecimal price = new BigDecimal(i);
+			final DataDTO dto = new DataDTO((byte)i, price, i);
+			System.out.println(dto);
+			stream.write(dto);
 		}
+		return stream;
 	}
 }

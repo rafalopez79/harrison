@@ -32,7 +32,7 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 		final String encoding = request.getHeader(ProtocolConstants.CONTENT_ENCODING);
 		final String acceptEncoding = request.getHeader(ProtocolConstants.ACCEPT_ENCODING);
 		final String contentType = request.getContentType();
-		LOGGER.info("Received {} {} ", encoding, contentType);
+		LOGGER.debug("Received {} {} ", encoding, contentType);
 
 		response.setContentType(ProtocolConstants.CONTENT_TYPE);
 		InputStream is = null;
@@ -44,7 +44,6 @@ public class HarrisonServiceExporter extends HarrisonExporter implements HttpReq
 			is = request.getInputStream();
 		}
 		if (acceptEncoding != null && acceptEncoding.indexOf(ProtocolConstants.GZIP_ENCODING) > -1){
-			LOGGER.info("USING GZIP");
 			response.setHeader(ProtocolConstants.CONTENT_ENCODING, ProtocolConstants.GZIP_ENCODING);
 			gzos = new GZIPOutputStream(new IgnoreCloseOutputStream(response.getOutputStream()));
 			os = gzos;

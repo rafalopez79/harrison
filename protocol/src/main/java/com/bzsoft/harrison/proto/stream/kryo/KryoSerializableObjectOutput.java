@@ -5,15 +5,13 @@ import java.io.OutputStream;
 
 import com.bzsoft.harrison.proto.ProtocolConstants;
 import com.bzsoft.harrison.proto.stream.SerializableObjectOutput;
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 
 /**
  * The Class KryoSerializableObjectOutput.
  */
-public class KryoSerializableObjectOutput implements SerializableObjectOutput {
+public class KryoSerializableObjectOutput extends BaseKryoSerializable implements SerializableObjectOutput {
 
-	private final Kryo kryo;
 	private final Output os;
 
 	/**
@@ -25,8 +23,6 @@ public class KryoSerializableObjectOutput implements SerializableObjectOutput {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	public KryoSerializableObjectOutput(final OutputStream ostream) throws IOException {
-		kryo = new Kryo();
-		kryo.setDefaultSerializer(HarrisonSerializer.class);
 		os = new Output(ostream);
 	}
 

@@ -7,8 +7,7 @@ public class HarrisonSerializer<T> extends FieldSerializer<T> {
 
 	public HarrisonSerializer(final Kryo kryo, final Class<T> type) {
 		super(kryo, type);
+		setCopyTransient(false);
 	}
-
-
 
 }

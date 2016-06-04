@@ -17,7 +17,7 @@ public class OutputServerStreamIterable<T extends Serializable> implements Strea
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close(){
 		//empty
 	}
 
@@ -27,17 +27,21 @@ public class OutputServerStreamIterable<T extends Serializable> implements Strea
 	}
 
 	@Override
-	public void cancel() throws IOException {
+	public void cancel()  {
 		close();
 	}
 
 	@Override
-	public void write(final T item) throws IOException {
-		soi.writeBoolean(true);
-		soi.writeObject(item);
-		if (++count  == ProtocolConstants.RESET_COUNT){
-			soi.reset();
-			count = 0;
+	public void write(final T item)  {
+		try{
+			soi.writeBoolean(true);
+			soi.writeObject(item);
+			if (++count  == ProtocolConstants.RESET_COUNT){
+				soi.reset();
+				count = 0;
+			}
+		}catch(final IOException e){
+			throw new ProtocolRuntimeException(e);
 		}
 	}
 

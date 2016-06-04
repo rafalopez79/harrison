@@ -85,9 +85,15 @@ public class OutputClientStreamIterable<T extends Serializable> implements Strea
 	}
 
 	@Override
-	public void close() throws IOException {
-		soi.close();
-		LOGGER.info("Downloaded {} bytes", entity.getTransferred());
+	public void close() {
+		try{
+			soi.close();
+			if (entity != null){
+				LOGGER.info("Downloaded {} bytes", entity.getTransferred());
+			}
+		}catch(final IOException e){
+			throw new ProtocolRuntimeException(e);
+		}
 	}
 
 	@Override
@@ -96,12 +102,12 @@ public class OutputClientStreamIterable<T extends Serializable> implements Strea
 	}
 
 	@Override
-	public void cancel() throws IOException {
+	public void cancel() {
 		close();
 	}
 
 	@Override
-	public void write(final T item) throws IOException {
+	public void write(final T item) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -91,7 +91,7 @@ public class InputOutputServerStreamIterable<T extends Serializable> implements 
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 		//
 	}
 
@@ -101,20 +101,24 @@ public class InputOutputServerStreamIterable<T extends Serializable> implements 
 	}
 
 	@Override
-	public void cancel() throws IOException {
+	public void cancel() {
 		close();
 	}
 
 	@Override
-	public void write(final T item) throws IOException {
-		if (!iterator.finish()) {
-			throw new IOException("Input not finished");
-		}
-		soo.writeBoolean(true);
-		soo.writeObject(item);
-		if (++count  == ProtocolConstants.RESET_COUNT){
-			soo.reset();
-			count = 0;
+	public void write(final T item) {
+		try{
+			if (!iterator.finish()) {
+				throw new IOException("Input not finished");
+			}
+			soo.writeBoolean(true);
+			soo.writeObject(item);
+			if (++count  == ProtocolConstants.RESET_COUNT){
+				soo.reset();
+				count = 0;
+			}
+		}catch(final IOException e){
+			throw new ProtocolRuntimeException(e);
 		}
 	}
 

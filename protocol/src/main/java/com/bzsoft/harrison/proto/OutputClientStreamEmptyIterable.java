@@ -1,6 +1,5 @@
 package com.bzsoft.harrison.proto;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -13,7 +12,7 @@ public class OutputClientStreamEmptyIterable<T extends Serializable> implements 
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 		//empty
 	}
 
@@ -38,12 +37,12 @@ public class OutputClientStreamEmptyIterable<T extends Serializable> implements 
 	}
 
 	@Override
-	public void cancel() throws IOException {
+	public void cancel() {
 		//empty
 	}
 
 	@Override
-	public void write(final T item) throws IOException {
+	public void write(final T item) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -52,7 +52,7 @@ public class TestClient {
 	public static void main(final String[] args) throws Exception {
 		final String url = "http://localhost:8080/services/test";
 		final Class<TestService> apiClass = TestService.class;
-		final ServiceProxyFactory f = new ClientProxyFactory(SerializerType.JAVA, false, "hola", "", true);
+		final ServiceProxyFactory f = new ClientProxyFactory(SerializerType.KRYO, false, "hola", "", true);
 		final TestService service = f.create(apiClass, url);
 		// for(int i = 0; i < 10; i++){
 		// final int a = service.compute(String.valueOf(i), "500");
