@@ -4,7 +4,7 @@ import com.bzsoft.harrison.proto.ProtocolConstants;
 import com.bzsoft.harrison.proto.ProtocolRuntimeException;
 
 public enum SerializerType {
-	JAVA(ProtocolConstants.JAVA_SERIALIZATION), KRYO(ProtocolConstants.KRYO_SERIALIZATION);
+	JAVA(ProtocolConstants.JAVA_SERIALIZATION), KRYO(ProtocolConstants.KRYO_SERIALIZATION), HESSIAN(ProtocolConstants.HESSIAN_SERIALIZATION);
 
 	private final byte type;
 
@@ -18,6 +18,8 @@ public enum SerializerType {
 			return JAVA;
 		case ProtocolConstants.KRYO_SERIALIZATION:
 			return KRYO;
+		case ProtocolConstants.HESSIAN_SERIALIZATION:
+			return HESSIAN;
 		default:
 			throw new ProtocolRuntimeException(String.format("Unknown serialization %d", type));
 		}

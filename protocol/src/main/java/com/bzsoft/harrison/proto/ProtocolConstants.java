@@ -11,6 +11,7 @@ public final class ProtocolConstants {
 
 	public static final byte JAVA_SERIALIZATION = 0;
 	public static final byte KRYO_SERIALIZATION = 1;
+	public static final byte HESSIAN_SERIALIZATION = 2;
 
 	public static final byte STANDARD_CALL = 'C';
 	public static final byte UPLOAD_CALL = 'U';

@@ -5,6 +5,7 @@ import com.bzsoft.harrison.proto.stream.SerializableObjectStreamFactory;
 import com.bzsoft.harrison.proto.stream.SerializableObjectStreamFactoryCreator;
 import com.bzsoft.harrison.proto.stream.SerializerType;
 import com.bzsoft.harrison.proto.stream.base.BaseSerializableObjectStreamFactoryImpl;
+import com.bzsoft.harrison.proto.stream.hessian.HessianSerializableObjectStreamFactoryImpl;
 import com.bzsoft.harrison.proto.stream.kryo.KryoSerializableObjectStreamFactoryImpl;
 
 public class SerializableObjectStreamFactoryCreatorImpl implements SerializableObjectStreamFactoryCreator {
@@ -16,6 +17,8 @@ public class SerializableObjectStreamFactoryCreatorImpl implements SerializableO
 			return new BaseSerializableObjectStreamFactoryImpl();
 		case KRYO:
 			return new KryoSerializableObjectStreamFactoryImpl();
+		case HESSIAN:
+			return new HessianSerializableObjectStreamFactoryImpl();
 		default:
 			throw new ProtocolRuntimeException(String.format("Unknown serialization %d", type));
 		}
